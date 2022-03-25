@@ -1,0 +1,64 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "compile",
+            "command": "cmd",
+            "type": "process",
+            "args": [
+                "/C if not exist %outpath% mkdir %outpath% && CALL %tcprofilevars% && CALL %vcvarsall% && cl -DSTEP -DAP203 -DAP214 -DWIN32_LEAN_AND_MEAN -DWNT -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -D_SECURE_SCL=0 -D_HAS_TR1=0 -DWNT -D_WIN32 -DWIN32 -D_WIN64 -D_INTEL=1 -DCRTAPI1=_cdecl -DCRTAPI2=cdecl -DIMAN_TAO -DBYPASS_FLEX -DPOMDLL -DIPLIB=none -I\".\" -I\"%TC_INCLUDE%\" -c -nologo -EHsc -W1 -Zi -Od -MD /Fd:%outpath%\\vc150.pdb /Fo:%outpath%\\%TargetName%.obj %TargetName%.c"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+        },
+        {
+            "label": "nmake build",
+            "command": "cmd",
+            "type": "process",
+            "args": [
+                "/C nmake -f makefile.wntx64 all"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+        },
+        {
+            "label": "nmake build2",
+            "command": "cmd",
+            "type": "process",
+            "args": [
+                "/C CALL %tcprofilevars% && CALL %vcvarsall% && nmake -f makefile.wntx64 all"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+        },
+        {
+            "label": "nmake clean",
+            "command": "cmd",
+            "type": "process",
+            "args": [
+                "/C CALL %tcprofilevars% && CALL %vcvarsall% && nmake -f makefile.wntx64 clean"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+        }
+    ],
+    "options": {
+        "env": {
+            "outpath": "out", // must exist before running
+            "TargetName": "RRJ_itk_console",
+            "TargetExt": "exe",
+            "vcvarsall": "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\VC\\Auxiliary\\Build\\vcvarsall.bat\" x64",
+            "tcprofilevars": "C:\\SPLM\\tcdata\\tc_profilevars.bat",
+        }
+    }
+}
