@@ -21,13 +21,13 @@ OPT_CXX_FLAGS      =
 # Platform specific paths
 # ==================================================
 BASE_DIR           = C:\source
-PROJECT_NAME       = RLRJ_itk_console
-PROJECT_PREFIX     = RLRJ_ITK_CONSOLE
+PROJECT_NAME       = RRJ_itk_console
+PROJECT_PREFIX     = RRJ_itk_console
 BASE_PATH          = $(BASE_DIR)\$(PROJECT_NAME)
 TC_ROOT            = C:\SPLM\TC12
 TEMPLATE_HOME      = C:\SPLM\TC12\bmide\templates
 SOA_CLIENT_KIT     = C:\SPLM\TC12\soa_client
-COMPILER_HOME	   = C:\PROGRA~2\MICROS~1\2019\BuildTools\VC\Tools\MSVC\14.28.29910\bin\Hostx64\x64
+COMPILER_HOME	   = C:\APPS\Microsoft\VisualStudio\BuildTools\2017\VC\Tools\MSVC\14.16.27023\bin\Hostx64\x64
 
 
 # ==================================================
