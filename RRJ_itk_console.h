@@ -58,7 +58,8 @@ using Teamcenter::CreateInput;
 
 /*================================================================================================*/
 #define ERROR_CHECK(X) (report_error( __FILE__, __LINE__, #X, (X)))
-static void report_error( char *file, int line, char *function, int return_code){
+static void report_error( char *file, int line, char *function, int return_code)
+{
     if (return_code != ITK_ok)
     {
 		char *error_msg_string;
@@ -75,6 +76,6 @@ static void report_error( char *file, int line, char *function, int return_code)
 
 
 extern int ITK_user_main(
-	int argc, 
+	int argc,
 	char* argv[]
 	);

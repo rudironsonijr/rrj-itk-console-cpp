@@ -5,11 +5,11 @@
 #    OPT_CXX_FLAGS  Optionally set this argument to add compile flags
 #                   to the C++ targets
 #
-#    Target			The build target: 
+#    Target			The build target:
 #                       all		Build all targets for this project (default).
 #                       clean   Delete all generated artifacts for this project.
 #
-#  The following environment variables are required to be set: 
+#  The following environment variables are required to be set:
 #    TC_BIN         The bin folder in the Teamcenter installation.
 #    PATH           The Operational System's PATH
 #
@@ -34,7 +34,7 @@ COMPILER_HOME	   = C:\APPS\Microsoft\VisualStudio\BuildTools\2017\VC\Tools\MSVC\
 # Platform specific options and commands
 # ==================================================
 PLAT               = wntx64
-PS                 =\ 
+PS                 =\\
 PD                 =;
 OS_TYPE            = Win
 LP                 = /LIBPATH:
@@ -50,11 +50,11 @@ CXX_EXT            = .cxx
 TOOLBOX_HOME       = $(SOA_CLIENT_KIT)\toolbox
 COMPILE            = cl
 LINK               = link
-DEBUG_CXX_FLAGS    = -c -nologo -EHsc -W1 -Zi -Od -MD 
+DEBUG_CXX_FLAGS    = -c -nologo -EHsc -W1 -Zi -Od -MD
 CXX_FLAGS          = -DSTEP -DAP203 -DAP214 -DWIN32_LEAN_AND_MEAN -DWNT -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -D_SECURE_SCL=0 -D_HAS_TR1=0 -DWNT -D_WIN32 -DWIN32 -D_WIN64 -D_INTEL=1 -DCRTAPI1=_cdecl -DCRTAPI2=cdecl -DIMAN_TAO -DBYPASS_FLEX -DPOMDLL $(OPT_CXX_FLAGS)
 LINK_FLAGS         = -debug -nologo -subsystem:console -MACHINE:X64
 CPP_INCLUDES       = -I$(SOA_CLIENT_KIT)\cpp\includes\cpp\include
-CPPMNGD_INCLUDES   = -I$(SOA_CLIENT_KIT)\cpp\includes\cpp-managed\include 
+CPPMNGD_INCLUDES   = -I$(SOA_CLIENT_KIT)\cpp\includes\cpp-managed\include
 LIB_PATH           = $(LP)$(SOA_CLIENT_KIT)\cpp\libs\$(PLAT) $(LP)$(TC_ROOT)\lib
 
 SYSLIBS            = wsock32.lib advapi32.lib msvcrt.lib oldnames.lib kernel32.lib winmm.lib
@@ -90,7 +90,7 @@ PROJECT_PREFIX_INCLUDES       = -I"$(BASE_PATH)" \
                                 -I"$(TC_ROOT)$(PS)include" \
 								-I"$(TC_ROOT)$(PS)include_cpp" \
 								-I"$(TC_ROOT)$(PS)aw_include_cpp"
-PROJECT_PREFIX_LIB_PATH       = $(LP)$(PROJECT_BIN)  $(LIB_PATH) 
+PROJECT_PREFIX_LIB_PATH       = $(LP)$(PROJECT_BIN)  $(LIB_PATH)
 PROJECT_PREFIX_LIBS           = $(SYSLIBS)\
                                   /ignore:4199\
                                   delayimp.lib\
@@ -225,4 +225,3 @@ $(PROJECT_NAME)_clean :
 	@echo Cleaning $(PROJECT_NAME)
 	-$(DELETE_FILE)  *.exe *.obj *.pdb
 	@echo ________________________________________________________________________________
-	

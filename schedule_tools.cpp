@@ -1,10 +1,7 @@
-#include "RLRJ_itk_console.h"
+#include "RRJ_itk_console.h"
 
 
-int getSchedule(
-	std::string object_name,	
-	tag_t* schedule_tag
-	)
+int getSchedule(std::string object_name, tag_t* schedule_tag)
 {
 	ResultStatus rStatus = ITK_ok;
 	int ifail = ITK_ok;
@@ -19,7 +16,7 @@ int getSchedule(
 
 	tag_t tagObj;
 	Teamcenter::scoped_smptr<void**> reports;
-	
+
 	std::vector<tag_t> validWorkspaceObjectSearchResult;
 	std::string objectType = "Schedule";
 
@@ -63,7 +60,7 @@ int getSchedule(
 	{
 		return ex.ifail();
 	}
-	
+
 	return ifail;
 }
 
@@ -86,7 +83,7 @@ int getScheduleTask(
 
 	tag_t tagObj;
 	Teamcenter::scoped_smptr<void**> reports;
-	
+
 	std::vector<tag_t> validWorkspaceObjectSearchResult;
 	std::string objectType = "ScheduleTask";
 
@@ -133,15 +130,15 @@ int getScheduleTask(
 	{
 		return ex.ifail();
 	}
-	
+
 	return ifail;
 }
 
 int criarDependencia(
-	tag_t sucessora_task_tag, 
-	tag_t predecessora_task_tag, 
-	int depType, 
-	long lagTime, 
+	tag_t sucessora_task_tag,
+	tag_t predecessora_task_tag,
+	int depType,
+	long lagTime,
 	tag_t *taskDep
 	)
 {
@@ -161,8 +158,8 @@ int criarDependencia(
            return ifail;
         }
 
-		
-        
+
+
         tag_t relation_tag = NULLTAG;
         if ( sucessora_task_tag != NULLTAG && predecessora_task_tag != NULLTAG && depTypeTag != NULLTAG )
         {
@@ -223,7 +220,7 @@ int criarDependencia(
                 }
                 rstat = AOM_unlock(*taskDep);
             }
-           
+
         }
 
 
@@ -233,17 +230,17 @@ int criarDependencia(
         //Teamcenter::ScheduleManager::schmgt::logger()->error( ERROR_line, ex.ifail(), "Exception in TaskDependencyImpl::createDependency" );
         return NOT_OK;
     }
-	
+
 
 	return ifail;
 }
 
 int criarDependencia2(
 	// tag_t schedule_tag,
-	tag_t sucessora_task_tag, 
-	tag_t predecessora_task_tag, 
-	int depType, 
-	long lagTime, 
+	tag_t sucessora_task_tag,
+	tag_t predecessora_task_tag,
+	int depType,
+	long lagTime,
 	tag_t *taskDep
 	)
 {
@@ -255,9 +252,9 @@ int criarDependencia2(
     {
 		int app_id;
 		int app_code;
-		
-		ERROR_CHECK(POM_register_application("SCHMGTV100", "SCHMGTV100", &app_id, &app_code)); 
-		ERROR_CHECK(POM_identify_application(app_id, app_code, TRUE)); 
+
+		ERROR_CHECK(POM_register_application("SCHMGTV100", "SCHMGTV100", &app_id, &app_code));
+		ERROR_CHECK(POM_identify_application(app_id, app_code, TRUE));
 
 		tag_t dependency_relation_type = NULLTAG;
         ifail = GRM_find_relation_type(TaskDependencyRelType, &dependency_relation_type);
@@ -286,117 +283,117 @@ int criarDependencia2(
         //Teamcenter::ScheduleManager::schmgt::logger()->error( ERROR_line, ex.ifail(), "Exception in TaskDependencyImpl::createDependency" );
         return NOT_OK;
     }
-	
+
 
 	return ifail;
 }
 
 int criarDependencia3(
 	// tag_t schedule_tag,
-	tag_t tPrimaryObj, 
-	tag_t tSecondaryObj, 
-	int depType, 
-	long lagTime, 
+	tag_t tPrimaryObj,
+	tag_t tSecondaryObj,
+	int depType,
+	long lagTime,
 	tag_t *taskDep
-	)	
+	)
 {
 	// sucessora_task_tag é o 'primary_object'
     // predecessora_task_tag é o 'secondary_object'
 	int ifail = ITK_ok;
 	std::string sClassName = "TaskDependency";
 	std::string sRelName = "TaskDependency";
-	
+
 	try
     {
 		int app_id;
 		int app_code;
-		
-		ERROR_CHECK(POM_register_application("SCHMGTV100", "SCHMGTV100", &app_id, &app_code)); 
-		ERROR_CHECK(POM_identify_application(app_id, app_code, TRUE)); 
 
-		// tag_t relation_type=NULL_TAG; 
-		// tag_t tClassID=NULLTAG, tNewRelation=NULLTAG; 
-		// tag_t tPrimAttrTag=NULLTAG, tSecAttrTag=NULLTAG, treltype=NULLTAG, tUsrData=NULLTAG; 
+		ERROR_CHECK(POM_register_application("SCHMGTV100", "SCHMGTV100", &app_id, &app_code));
+		ERROR_CHECK(POM_identify_application(app_id, app_code, TRUE));
+
+		// tag_t relation_type=NULL_TAG;
+		// tag_t tClassID=NULLTAG, tNewRelation=NULLTAG;
+		// tag_t tPrimAttrTag=NULLTAG, tSecAttrTag=NULLTAG, treltype=NULLTAG, tUsrData=NULLTAG;
 
 
 		tag_t relation_type=NULLTAG;
 		tag_t tClassID=NULLTAG;
 		tag_t tNewRelation=NULLTAG;
-		ifail=GRM_find_relation_type(sRelName.c_str(),&relation_type); 
-		ifail=POM_class_id_of_class(sRelName.c_str(), &tClassID); 
-		if(tClassID!=NULL) 
+		ifail=GRM_find_relation_type(sRelName.c_str(),&relation_type);
+		ifail=POM_class_id_of_class(sRelName.c_str(), &tClassID);
+		if(tClassID!=NULL)
 		{
-			ERROR_CHECK(POM_create_instance(tClassID,&tNewRelation)); 
-		}
-		
-		tag_t tPrimAttrTag=NULLTAG; 
-		ERROR_CHECK(POM_attr_id_of_attr("primary_object", sClassName.c_str(), &tPrimAttrTag)); 
-		if (tPrimAttrTag!=NULLTAG) 
-		{
-			ERROR_CHECK(POM_set_attr_tag(1, &tNewRelation, tPrimAttrTag, tPrimaryObj)); 
+			ERROR_CHECK(POM_create_instance(tClassID,&tNewRelation));
 		}
 
-		tag_t tSecAttrTag=NULLTAG; 
-		ERROR_CHECK( POM_attr_id_of_attr("secondary_object", sClassName.c_str(), &tSecAttrTag)); 
-		if(tSecAttrTag!=NULLTAG) 
+		tag_t tPrimAttrTag=NULLTAG;
+		ERROR_CHECK(POM_attr_id_of_attr("primary_object", sClassName.c_str(), &tPrimAttrTag));
+		if (tPrimAttrTag!=NULLTAG)
 		{
-			ERROR_CHECK(POM_set_attr_tag(1, &tNewRelation, tSecAttrTag, tSecondaryObj)); 
+			ERROR_CHECK(POM_set_attr_tag(1, &tNewRelation, tPrimAttrTag, tPrimaryObj));
 		}
-		
-		tag_t treltype=NULLTAG; 
-		ERROR_CHECK(POM_attr_id_of_attr("relation_type", sClassName.c_str(), &treltype)); 
-		if(treltype!=NULLTAG) 
+
+		tag_t tSecAttrTag=NULLTAG;
+		ERROR_CHECK( POM_attr_id_of_attr("secondary_object", sClassName.c_str(), &tSecAttrTag));
+		if(tSecAttrTag!=NULLTAG)
 		{
-			ERROR_CHECK(POM_set_attr_tag(1, &tNewRelation, treltype, relation_type)); 
+			ERROR_CHECK(POM_set_attr_tag(1, &tNewRelation, tSecAttrTag, tSecondaryObj));
+		}
+
+		tag_t treltype=NULLTAG;
+		ERROR_CHECK(POM_attr_id_of_attr("relation_type", sClassName.c_str(), &treltype));
+		if(treltype!=NULLTAG)
+		{
+			ERROR_CHECK(POM_set_attr_tag(1, &tNewRelation, treltype, relation_type));
 		}
 
 		// dependency_type
-		tag_t tdependency_type=NULLTAG; 
-		ERROR_CHECK(POM_attr_id_of_attr("dependency_type", sClassName.c_str(), &tdependency_type)); 
-		if(tdependency_type!=NULLTAG) 
+		tag_t tdependency_type=NULLTAG;
+		ERROR_CHECK(POM_attr_id_of_attr("dependency_type", sClassName.c_str(), &tdependency_type));
+		if(tdependency_type!=NULLTAG)
 		{
-			ERROR_CHECK(POM_set_attr_int(1, &tNewRelation, tdependency_type, depType)); 
+			ERROR_CHECK(POM_set_attr_int(1, &tNewRelation, tdependency_type, depType));
 		}
 
 		// lag_time
-		tag_t tlag_time=NULLTAG; 
-		ERROR_CHECK(POM_attr_id_of_attr("lag_time", sClassName.c_str(), &tlag_time)); 
-		if(tlag_time!=NULLTAG) 
+		tag_t tlag_time=NULLTAG;
+		ERROR_CHECK(POM_attr_id_of_attr("lag_time", sClassName.c_str(), &tlag_time));
+		if(tlag_time!=NULLTAG)
 		{
-			ERROR_CHECK(POM_set_attr_int(1, &tNewRelation, tlag_time, lagTime)); 
+			ERROR_CHECK(POM_set_attr_int(1, &tNewRelation, tlag_time, lagTime));
 		}
-		tag_t tUsrData=NULLTAG; 
-		ERROR_CHECK(POM_attr_id_of_attr("user_data", sClassName.c_str(), &tUsrData)); 
-		if(tUsrData!=NULLTAG) 
+		tag_t tUsrData=NULLTAG;
+		ERROR_CHECK(POM_attr_id_of_attr("user_data", sClassName.c_str(), &tUsrData));
+		if(tUsrData!=NULLTAG)
 		{
-			ERROR_CHECK(POM_set_attr_tag(1, &tNewRelation, tUsrData, NULLTAG)); 
+			ERROR_CHECK(POM_set_attr_tag(1, &tNewRelation, tUsrData, NULLTAG));
 		}
 
-		tag_t tRequiresDigitalSign=NULLTAG; 
-		ERROR_CHECK(POM_attr_id_of_attr("fnd0RequiresDigitalSign", sClassName.c_str(), &tRequiresDigitalSign)); 
-		if (tRequiresDigitalSign!=NULLTAG) 
+		tag_t tRequiresDigitalSign=NULLTAG;
+		ERROR_CHECK(POM_attr_id_of_attr("fnd0RequiresDigitalSign", sClassName.c_str(), &tRequiresDigitalSign));
+		if (tRequiresDigitalSign!=NULLTAG)
 		{
 			ERROR_CHECK(POM_set_attr_logical(1, &tNewRelation, tRequiresDigitalSign, false));
 		}
 
 		tag_t t_fnd0CopyStableID=NULLTAG;
 		char* fnd0CopyStableID;
-		ERROR_CHECK(POM_tag_to_uid(tPrimaryObj, &fnd0CopyStableID)); 
-		ERROR_CHECK(POM_attr_id_of_attr("fnd0CopyStableID", sClassName.c_str(), &t_fnd0CopyStableID)); 
-		if (t_fnd0CopyStableID!=NULLTAG) 
+		ERROR_CHECK(POM_tag_to_uid(tPrimaryObj, &fnd0CopyStableID));
+		ERROR_CHECK(POM_attr_id_of_attr("fnd0CopyStableID", sClassName.c_str(), &t_fnd0CopyStableID));
+		if (t_fnd0CopyStableID!=NULLTAG)
 		{
 			ERROR_CHECK(POM_set_attr_string(1, &tNewRelation, t_fnd0CopyStableID, fnd0CopyStableID));
 		}
-		
-		tag_t t_last_mod_date = NULLTAG; 
+
+		tag_t t_last_mod_date = NULLTAG;
 		ERROR_CHECK(POM_attr_id_of_attr("last_mod_date", "WorkspaceObject", &t_last_mod_date));
 		date_t last_mod_date_value;
 		logical is_it_null;
 		logical is_it_empty;
 		ERROR_CHECK(POM_ask_attr_date(tSecondaryObj, t_last_mod_date, &last_mod_date_value, &is_it_null, &is_it_empty));
-		tag_t fnd0CopyStableDate=NULLTAG; 
+		tag_t fnd0CopyStableDate=NULLTAG;
 		ERROR_CHECK(POM_attr_id_of_attr("fnd0CopyStableDate", sClassName.c_str(), &fnd0CopyStableDate));
-		if (fnd0CopyStableDate!=NULLTAG) 
+		if (fnd0CopyStableDate!=NULLTAG)
 		{
 			ERROR_CHECK(POM_set_attr_date(1, &tNewRelation, fnd0CopyStableDate, last_mod_date_value));
 		}
@@ -407,17 +404,17 @@ int criarDependencia3(
 	}
 	catch(IFail &ex)
     {
-        
+
         return NOT_OK;
     }
-	
+
 
 	return ifail;
 }
 
 
 int getSchedulesUsingDataProvider() {
-	
+
 	// std::string providerName ("P7mSchPropsProvider");
 	// int startIndex = 0;
 	// int maxToReturn = 100000;
@@ -443,7 +440,7 @@ int getSchedulesUsingDataProvider() {
 	// 	throw IFail();
 	// }
 	// rStat = searchOperationInput->setString( "providerName", providerName.c_str(), false );
-	// rStat = searchOperationInput->setTagArray( "searchCriteria", searchCriteriaInputs, &isNullVector ); 
+	// rStat = searchOperationInput->setTagArray( "searchCriteria", searchCriteriaInputs, &isNullVector );
 	// rStat = searchOperationInput->setInt( "startIndex", startIndex, false );
 	// rStat = searchOperationInput->setInt( "maxToReturn", maxToReturn, false );
 	// rStat = searchOperationInput->setInt( "maxToLoad", maxToLoad, false );

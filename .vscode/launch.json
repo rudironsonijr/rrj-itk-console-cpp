@@ -8,7 +8,7 @@
             "name": "cl.exe build and debug active file",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "RLRJ_itk_console.exe",
+            "program": "RRJ_itk_console.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

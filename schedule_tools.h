@@ -40,26 +40,26 @@ int getScheduleTask(
 	);
 
 int criarDependencia(
-	tag_t sucessora, 
-	tag_t predecessora, 
-	int depType, 
-	long lagTime, 
+	tag_t sucessora,
+	tag_t predecessora,
+	int depType,
+	long lagTime,
 	tag_t *taskDep
 	);
 
 int criarDependencia2(
-	tag_t sucessora, 
-	tag_t predecessora, 
-	int depType, 
-	long lagTime, 
+	tag_t sucessora,
+	tag_t predecessora,
+	int depType,
+	long lagTime,
 	tag_t *taskDep
 	);
 
 int criarDependencia3(
 	// tag_t schedule_tag,
-	tag_t sucessora_task_tag, 
-	tag_t predecessora_task_tag, 
-	int depType, 
-	long lagTime, 
+	tag_t sucessora_task_tag,
+	tag_t predecessora_task_tag,
+	int depType,
+	long lagTime,
 	tag_t *taskDep
 	);
